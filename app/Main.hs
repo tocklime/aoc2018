@@ -1,7 +1,13 @@
 module Main where
 
-import Day1
-import System.Directory
+import           Control.Monad (forM_)
+import           Day1
+import           Types
+
+probs :: [Problem IO]
+probs = [day1a,day1b]
 
 main :: IO ()
-main = day1p2
+main = forM_ probs $ \p -> do
+    putStrLn $"Doing problem " ++ problemName p
+    runProblem DefaultFile p

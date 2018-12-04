@@ -24,6 +24,9 @@ dependencies:
 
 library:
   source-dirs: src
+  ghc-options:
+  - -Wall
+  - -Werror
   dependencies:
     - attoparsec
     - text
@@ -32,7 +35,7 @@ library:
     - conduit-extra
     - resourcet
     - containers
-    
+    - bytestring
 
 executables:
   aoc2018-exe:
@@ -42,6 +45,8 @@ executables:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
+    - -Wall
+    - -Werror
     dependencies:
     - aoc2018
     - directory
