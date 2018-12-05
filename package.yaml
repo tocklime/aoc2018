@@ -36,6 +36,7 @@ library:
     - resourcet
     - containers
     - bytestring
+    - array
 
 executables:
   aoc2018-exe:
@@ -50,6 +51,8 @@ executables:
     dependencies:
     - aoc2018
     - directory
+    - criterion
+    - optparse-applicative
 
 tests:
   aoc2018-test:
