@@ -58,8 +58,8 @@ type Sheet a = AIO.IOArray (Int,Int) a
 
 collapseAndCount :: ConduitT Claim o (ResourceT IO) Int
 collapseAndCount = do
-    sheet <- liftIO $ (MA.newArray ((0,0),(1000,1000)) (0) :: IO (Sheet Int))
-    C.mapM_ $ \c -> do
+    sheet <- liftIO (MA.newArray ((0,0),(1000,1000)) 0 :: IO (Sheet Int))
+    C.mapM_ $ \c -> 
         forM_ [(x,y)| x <-[left c..left c+(width c - 1)], y <- [top c..top c+(height c - 1)]] $ \p -> do
             count <- liftIO $ MA.readArray sheet p
             liftIO $ MA.writeArray sheet p (count+1)
@@ -68,17 +68,15 @@ collapseAndCount = do
     
 collapseAndFindDisconnected :: MonadIO m => ConduitT Claim o m [Claim]
 collapseAndFindDisconnected = do
-    sheet <- liftIO $ (MA.newArray ((0,0),(1000,1000)) [] :: IO (Sheet [Claim]))
+    sheet <- liftIO (MA.newArray ((0,0),(1000,1000)) [] :: IO (Sheet [Claim]))
     alones <- liftIO $ newMVar S.empty
     C.mapM_ $ \c -> do
         newness <- forM [(x,y)| x <-[left c..left c+(width c - 1)], y <- [top c..top c+(height c - 1)]] $ \p -> do
             claims <- liftIO $ MA.readArray sheet p
             forM_ claims $ \otherclaim ->
-                liftIO $ modifyMVar_ alones $ \set -> return $ S.delete otherclaim set
+                liftIO . modifyMVar_ alones $ return . S.delete otherclaim
             liftIO $ MA.writeArray sheet p (c:claims)
             return (null claims)
-        let isNew = all id newness
-        when isNew $ do
-            liftIO $ modifyMVar_ alones $ \set -> return $ S.insert c set
+        when (and newness) . liftIO . modifyMVar_ alones $ return . S.insert c 
     c <- liftIO $ readMVar alones
     return (S.toList c)
