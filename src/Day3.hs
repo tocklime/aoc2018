@@ -2,6 +2,7 @@
 module Day3(day3a,day3a',day3b) where
 
 import Types
+import Utils
 import Control.Concurrent.MVar
 import qualified Data.Array.MArray as MA
 import qualified Data.Array.IO as AIO
@@ -9,10 +10,8 @@ import qualified Data.Array as A
 import           Data.Conduit
 import qualified Data.Conduit.Combinators as C
 import qualified Data.Conduit.Text        as CT
-import qualified Data.Text as T
 import qualified Data.Set as S
 import Control.Monad(forM_,forM,when)
-import Control.Monad.Fail(MonadFail)
 import Control.Monad.Trans(liftIO,MonadIO)
 import Control.Monad.Trans.Resource
 import qualified Data.Attoparsec.Text as P
@@ -25,11 +24,11 @@ data Claim = Claim
     } deriving(Show,Eq,Ord)
 
 day3a' :: Problem IO
-day3a' = Problem "3A" "3" $ CT.lines .| C.mapM readLine .| C.head
+day3a' = Problem "3A" "3" $ CT.lines .| C.mapM (doParse lineParse) .| C.head
 day3a :: Problem IO
-day3a = Problem "3A" "3" $ CT.lines .| C.mapM readLine .| collapseAndCount
+day3a = Problem "3A" "3" $ CT.lines .| C.mapM (doParse lineParse) .| collapseAndCount
 day3b :: Problem IO
-day3b = Problem "3B" "3" $ CT.lines .| C.mapM readLine .| collapseAndFindDisconnected
+day3b = Problem "3B" "3" $ CT.lines .| C.mapM (doParse lineParse) .| collapseAndFindDisconnected
 
 lineParse :: P.Parser Claim
 lineParse = do -- #{id} @ {l},{t}: {w}x{h}
@@ -45,13 +44,6 @@ lineParse = do -- #{id} @ {l},{t}: {w}x{h}
   h <- P.decimal
   return $ Claim i l t w h
 
-
-readLine :: (MonadFail m) => T.Text -> m Claim
-readLine t = handle (P.parse lineParse t)
-  where 
-    handle (P.Done _ r) = return r
-    handle (P.Fail _ _ e) = fail e
-    handle (P.Partial f) = handle $ f ""
 
 
 type Sheet a = AIO.IOArray (Int,Int) a
