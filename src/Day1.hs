@@ -6,8 +6,8 @@ import qualified Data.Conduit.Text        as CT
 import           Types
 import Utils
 
-day1a :: Problem IO
-day1a = Problem "1A" "1" $ CT.lines .| C.map readInt .| C.sum
+day1a :: Problem
+day1a = problemConduit "1A" "1" $ CT.lines .| C.map readInt .| C.sum
 
-day1b :: Problem IO
-day1b = Problem "1B" "1" $ CT.lines .| C.map readInt .| repeatConduit .| C.scanl (+) 0 .| findDuplicate
+day1b :: Problem
+day1b = problemConduit "1B" "1" $ CT.lines .| C.map readInt .| repeatConduit .| C.scanl (+) 0 .| findDuplicate

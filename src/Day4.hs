@@ -15,10 +15,10 @@ import qualified Data.Text            as T
 import           Types
 import           Utils
 
-day4a :: Problem IO
-day4a = Problem "4A" "4" $ CT.lines .| processLines solvePartA
-day4b :: Problem IO
-day4b = Problem "4B" "4" $ CT.lines .| processLines solvePartB
+day4a :: Problem
+day4a = problemConduit "4A" "4" $ CT.lines .| processLines solvePartA
+day4b :: Problem
+day4b = problemConduit "4B" "4" $ CT.lines .| processLines solvePartB
 
 data Shift = Shift
     { guardId :: Integer

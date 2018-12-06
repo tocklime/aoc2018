@@ -26,7 +26,6 @@ library:
   source-dirs: src
   ghc-options:
   - -Wall
-  - -Werror
   dependencies:
     - attoparsec
     - text
@@ -47,7 +46,6 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     - -Wall
-    - -Werror
     dependencies:
     - aoc2018
     - directory

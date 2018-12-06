@@ -20,8 +20,8 @@ instance Semigroup Line where
 instance Monoid Line where
     mempty = Line 0 0
 
-day2a :: Problem IO
-day2a = Problem "2A" "2" $ CT.lines .| C.map analyseLine .| C.fold
+day2a :: Problem
+day2a = problemConduit "2A" "2" $ CT.lines .| C.map analyseLine .| C.fold
 
 analyseLine :: Text -> Line
 analyseLine = (\x -> Line (has 2 x) (has 3 x)) . map length . group . sort . unpack
@@ -31,8 +31,8 @@ analyseLine = (\x -> Line (has 2 x) (has 3 x)) . map length . group . sort . unp
 blankNth :: Text -> Int -> Text
 blankNth t n = let (a,b) = T.splitAt n t in a <> "_" <> T.tail b
 
-day2b :: Problem IO
-day2b = Problem "2B" "2" $ CT.lines .| C.concatMap expand .| findDuplicate
+day2b :: Problem
+day2b = problemConduit "2B" "2" $ CT.lines .| C.concatMap expand .| findDuplicate
   where
     expand :: Text -> [Text]
     expand t = map (blankNth t) [0..T.length t - 1] 

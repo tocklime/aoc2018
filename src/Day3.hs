@@ -23,12 +23,12 @@ data Claim = Claim
     , height :: Int
     } deriving(Show,Eq,Ord)
 
-day3a' :: Problem IO
-day3a' = Problem "3A" "3" $ CT.lines .| C.mapM (doParse lineParse) .| C.head
-day3a :: Problem IO
-day3a = Problem "3A" "3" $ CT.lines .| C.mapM (doParse lineParse) .| collapseAndCount
-day3b :: Problem IO
-day3b = Problem "3B" "3" $ CT.lines .| C.mapM (doParse lineParse) .| collapseAndFindDisconnected
+day3a' :: Problem 
+day3a' = problemConduit "3A" "3" $ CT.lines .| C.mapM (doParse lineParse) .| C.head
+day3a :: Problem
+day3a = problemConduit "3A" "3" $ CT.lines .| C.mapM (doParse lineParse) .| collapseAndCount
+day3b :: Problem
+day3b = problemConduit "3B" "3" $ CT.lines .| C.mapM (doParse lineParse) .| collapseAndFindDisconnected
 
 lineParse :: P.Parser Claim
 lineParse = do -- #{id} @ {l},{t}: {w}x{h}
