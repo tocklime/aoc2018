@@ -61,11 +61,10 @@ totalDistance :: [Coord] -> Coord -> Int
 totalDistance points c = sum $ map (manhattanDistance c) points
 
 listMiddle :: Enum a => [a] -> [a]
-listMiddle x =
-    case l `mod` 2 of
-        0 -> [Seq.index s (l `div` 2)]
-        1 -> [Seq.index s (l`div`2) .. Seq.index s (1 + (l`div`2))]
-        _ -> error "What strange maths"
+listMiddle x = 
+    if even (l `mod` 2) 
+        then [Seq.index s (l `div` 2)]
+        else [Seq.index s (l`div`2) .. Seq.index s (1 + (l`div`2))]
   where
     s = Seq.fromList x
     l = Seq.length s
