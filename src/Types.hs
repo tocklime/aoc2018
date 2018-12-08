@@ -29,8 +29,9 @@ problemConduit n f c = Problem n f $ \t -> do
 problemSimple :: forall o. (Show o) => String -> String -> (TL.Text -> o) -> Problem
 problemSimple n f tfunc = problemConduit n f $ tfunc <$> sinkLazy
 
-tbd :: TL.Text -> String
-tbd _ = "TBD"
+tbd :: a -> String
+tbd = const "TBD"
+
 
 data RunMode = Stdin | DefaultFile | SpecificFile FilePath
 

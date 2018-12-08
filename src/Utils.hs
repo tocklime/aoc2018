@@ -40,7 +40,7 @@ readInt t = case TR.signed TR.decimal t of
 
 unsafeParse :: PL.Parser a -> TL.Text -> a
 unsafeParse p t = case PL.parse p t of
-    PL.Fail _ _ x -> error x
+    PL.Fail a b x -> error $ show (x,a,b)
     PL.Done _ r   -> r
 
 doParse :: (MonadFail m) => P.Parser a -> T.Text -> m a
