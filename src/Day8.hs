@@ -1,6 +1,4 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE RankNTypes        #-}
-{-# LANGUAGE TupleSections     #-}
 module Day8(day8a,day8b) where
 
 import           Control.Monad             (replicateM)
@@ -9,14 +7,14 @@ import           Types
 import           Utils
 
 day8a :: Problem
-day8a = problemSimple "8A" "8" $ sumMetadata . unsafeParse (nodeParser)
+day8a = problemSimple "8A" "8" $ sumMetadata . unsafeParse nodeParser
 day8b :: Problem
-day8b = problemSimple "8B" "8" $ value . unsafeParse (nodeParser)
+day8b = problemSimple "8B" "8" $ value . unsafeParse nodeParser
 
 data Node = Node [Node] [Int]
 
 sumMetadata :: Node -> Int
-sumMetadata (Node c m) = sum $ concat [map sumMetadata c,m]
+sumMetadata (Node c m) = sum (map sumMetadata c ++ m)
 
 value :: Node -> Int
 value (Node [] ms) = sum ms
