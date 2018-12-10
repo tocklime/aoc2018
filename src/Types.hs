@@ -25,10 +25,17 @@ problemConduit n f c = Problem n f $ \t -> do
     out <- runConduitRes $ sourceThing .| decodeUtf8 .| c
     liftIO $ print out
 
-
 problemSimple :: forall o. (Show o) => String -> String -> (TL.Text -> o) -> Problem
 problemSimple n f tfunc = problemConduit n f $ tfunc <$> sinkLazy
 
+problemText :: String -> String -> (TL.Text -> String) -> Problem
+problemText n f tfunc = Problem n f $ \t -> do
+    let sourceThing = case t of
+            Stdin           -> stdin
+            DefaultFile     -> sourceFile ("inputs/Day"++f++".txt")
+            SpecificFile fi -> sourceFile fi
+    out <- runConduitRes $ sourceThing .| decodeUtf8 .| tfunc <$> sinkLazy
+    liftIO $ putStrLn out
 tbd :: a -> String
 tbd = const "TBD"
 
