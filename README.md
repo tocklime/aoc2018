@@ -8,3 +8,5 @@ On day 9, I also didn't start at 5am, but I timed myself again. I solved both pa
 
 
 I timed myself again on day 10. First problem in 46:23, both problems in 47:29. Position #100 had it in 16:49. Not super happy with that. It took me a long time to realise I could detect when the correct message was around by smallest total area. At least, I thought I could, and it turned out I could. I spent a long time mucking around with the parser, and I had another missing skipSpace. I should look into tokenizing before parsing. Possibly. Also, my solution doesn't run quickly -- about 8 seconds. That could be improved.
+
+Day 11, part 1: 13:24, part 2: 1:01:02. My solution for part one was quick to write but not fast enough for part 2. For part 2 I had to implement (and remember how to use) a prefix sum grid.

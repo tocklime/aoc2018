@@ -24,11 +24,11 @@ posAt n (Star x y vx vy) = (x+n*vx,y+n*vy)
 
 
 findSmallest :: [Star] -> String
-findSmallest stars = show i ++ "\n" ++ (drawAt i stars)
+findSmallest stars = show i ++ "\n" ++ drawAt i stars
   where
-    i = localMinimumIx1 (\n -> areaAt n stars) [0..]
+    i = localMinimumIx1 (`areaAt` stars) [0..]
 drawMany :: Int -> [Star] -> String
-drawMany max stars = unlines ["\n\n"++(show n) ++ "\n"++drawAt n stars| n <- [0..max]]
+drawMany max stars = unlines ["\n\n"++show n ++ "\n"++drawAt n stars| n <- [0..max]]
 
 localMinimumIx1 :: Ord o => (a -> o) ->[a] -> Int
 localMinimumIx1 f (a:as) = go 0 a as
